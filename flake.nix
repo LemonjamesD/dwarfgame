@@ -32,6 +32,16 @@
         glibc_multi
         openssl
         rust-analyzer-nightly
+
+        cmake
+        glfw-wayland
+        libffi
+        vulkan-headers
+        vulkan-loader
+        vulkan-validation-layers
+        xorg.libX11 xorg.libXcursor xorg.libXi xorg.libXrandr
+        libxkbcommon wayland
+        valgrind
       ];
       src = ./.;
       copySources = [

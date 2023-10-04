@@ -1,3 +1,10 @@
+use starstruck::prelude::*;
+
+fn callback() -> Result<(), EngineError> {
+    Ok(())
+}
+
 fn main() {
-    println!("Hello, world!");
+    let mut engine = Engine::new(callback);
+    engine.start().run();
 }

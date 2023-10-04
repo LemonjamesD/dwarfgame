@@ -1,15 +1,25 @@
 pub mod error;
+pub mod prelude;
+pub mod vulkan_start;
+
+use std::ptr::null_mut;
+use vulkan_sys::VkInstance;
 
 use crate::error::EngineError;
 
+pub type CallbackType = fn() -> Result<(), EngineError>;
+
 pub struct Engine {
-    callback: fn() -> Result<(), EngineError>,
+    callback: CallbackType,
+
+    instance: VkInstance,
 }
 
 impl Engine {
-    pub fn new() -> Self {
+    pub fn new(callback: CallbackType) -> Self {
         Self {
-            
+            callback,
+            instance: null_mut(),
         }
     }
 
@@ -24,5 +34,5 @@ impl Engine {
 }
 
 pub trait EngineCallback {
-    pub fn callback(engine: Engine) -> Result<(), EngineError>;
+    fn callback(engine: Engine) -> Result<(), EngineError>;
 }
