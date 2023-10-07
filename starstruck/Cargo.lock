@@ -25,7 +25,7 @@ name = "starstruck"
 version = "0.1.0"
 dependencies = [
  "thiserror",
- "vulkan-sys",
+ "vk-sys",
 ]
 
 [[package]]
@@ -66,7 +66,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
 
 [[package]]
-name = "vulkan-sys"
-version = "0.1.1"
+name = "vk-sys"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "952fc06d4b8be437a8c9042c77658be32cba1512de894b77cf676967f5c06b5c"
+checksum = "584003afc735800b0619a724332f37a28788f56fa9349874ee2f50874be0d239"

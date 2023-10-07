@@ -5,14 +5,14 @@ pub mod plugins;
 
 use std::ptr::null_mut;
 use plugins::EnginePlugin;
-use vulkan_sys::VkInstance;
+use vk_sys::VkInstance;
 
 use crate::error::EngineError;
 
 pub struct Engine {
     instance: VkInstance,
 
-    plugins: Vec<&dyn EnginePlugin>
+    plugins: Vec<Box<dyn EnginePlugin>>
 }
 
 impl Engine {
@@ -26,18 +26,25 @@ impl Engine {
 
     // Does a bunch of start up tasks
     pub fn start(self) -> Self {
+        for plugin in self.plugins {
+            plugin.plugin_make(&mut self);
+        }
         self
     }
 
-    pub fn run(self) -> Self {
-        self
+    pub fn run(self) -> ! {
+        loop {
+            for plugin in self.plugins {
+                plugin.plugin_run(&mut self)
+            }
+        }
     }
 }
 
 pub struct EngineBase;
 
 impl EnginePlugin for EngineBase {
-    fn plugin_make(engine: &mut Engine) -> Self {
+    fn plugin_make(&self, engine: &mut Engine) {
         
     }
 }

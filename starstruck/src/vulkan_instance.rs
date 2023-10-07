@@ -1,6 +1,6 @@
 use std::ffi::CString;
 use std::ptr::null;
-use vulkan_sys::{
+use vk_sys::{
     vkCreateInstance, VkApplicationInfo, VkInstanceCreateInfo, VK_API_VERSION_1_0, VK_MAKE_VERSION,
     VK_STRUCTURE_TYPE_APPLICATION_INFO, VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO, VK_SUCCESS, vkDestroyInstance,
 };
@@ -11,10 +11,8 @@ use crate::{prelude::EngineError, Engine, plugins::{EnginePlugin, EngineCleanup}
 pub struct VulkanInstancePlugin;
 
 impl EnginePlugin for VulkanInstancePlugin {
-    fn plugin_make(engine: &mut Engine) -> Self {
-        let vulkan_instance = VulkanInstancePlugin::new();
-        vulkan_instance.create_instance(engine).unwrap();
-        vulkan_instance
+    fn plugin_make(&self, engine: &mut Engine) {
+        self.create_instance(engine).unwrap();
     }
 }
 
@@ -61,6 +59,5 @@ impl EngineCleanup for VulkanInstancePlugin {
         unsafe {
             vkDestroyInstance(engine.instance, null());
         }
-        drop(self);
     }
 }
