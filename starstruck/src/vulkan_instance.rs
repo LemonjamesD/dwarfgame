@@ -7,6 +7,7 @@ use vulkan_sys::{
 
 use crate::{prelude::EngineError, Engine, plugins::{EnginePlugin, EngineCleanup}};
 
+/// Makes a vulkan instance and manages the state around it
 pub struct VulkanInstancePlugin;
 
 impl EnginePlugin for VulkanInstancePlugin {
