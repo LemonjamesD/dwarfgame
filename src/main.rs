@@ -5,6 +5,6 @@ fn callback() -> Result<(), EngineError> {
 }
 
 fn main() {
-    let mut engine = Engine::new(callback);
+    let engine = Engine::new(callback);
     engine.start().run();
 }

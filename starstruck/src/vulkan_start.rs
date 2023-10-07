@@ -1,9 +1,8 @@
 use std::ffi::CString;
 use std::ptr::null;
 use vulkan_sys::{
-    vkCreateInstance, VkApplicationInfo, VkInstance, VkInstanceCreateInfo, VK_API_VERSION_1_0,
-    VK_MAKE_VERSION, VK_STRUCTURE_TYPE_APPLICATION_INFO, VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-    VK_SUCCESS,
+    vkCreateInstance, VkApplicationInfo, VkInstanceCreateInfo, VK_API_VERSION_1_0, VK_MAKE_VERSION,
+    VK_STRUCTURE_TYPE_APPLICATION_INFO, VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO, VK_SUCCESS,
 };
 
 use crate::{prelude::EngineError, Engine};
