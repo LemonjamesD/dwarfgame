@@ -1,6 +1,7 @@
 pub mod error;
 pub mod prelude;
 pub mod vulkan_start;
+pub mod plugins;
 
 use std::ptr::null_mut;
 use vulkan_sys::VkInstance;
