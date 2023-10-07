@@ -4,23 +4,25 @@ pub mod vulkan_start;
 pub mod plugins;
 
 use std::ptr::null_mut;
+use plugins::EnginePlugin;
 use vulkan_sys::VkInstance;
 
 use crate::error::EngineError;
 
-pub type CallbackType = fn() -> Result<(), EngineError>;
-
 pub struct Engine {
-    callback: CallbackType,
-
     instance: VkInstance,
+
+    plugins: Vec<&dyn EnginePlugin>
 }
 
 impl Engine {
     pub fn new(callback: CallbackType) -> Self {
         Self {
             callback,
+
             instance: null_mut(),
+
+            plugins: vec![]
         }
     }
 
@@ -34,6 +36,10 @@ impl Engine {
     }
 }
 
-pub trait EngineCallback {
-    fn callback(engine: Engine) -> Result<(), EngineError>;
+pub struct EngineBase;
+
+impl EnginePlugin for EngineBase {
+    fn plugin_make(engine: &mut Engine) -> Self {
+        
+    }
 }
