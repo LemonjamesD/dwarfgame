@@ -16,10 +16,8 @@ pub struct Engine {
 }
 
 impl Engine {
-    pub fn new(callback: CallbackType) -> Self {
+    pub fn new() -> Self {
         Self {
-            callback,
-
             instance: null_mut(),
 
             plugins: vec![]
