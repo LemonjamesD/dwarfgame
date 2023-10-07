@@ -1,16 +1,18 @@
 pub mod error;
 pub mod prelude;
-pub mod vulkan_start;
+pub mod vulkan_instance;
 pub mod plugins;
+pub mod renderer;
+pub mod helpers;
 
 use std::ptr::null_mut;
 use plugins::EnginePlugin;
-use vk_sys::VkInstance;
 
 use crate::error::EngineError;
+use crate::renderer::Renderer;
 
 pub struct Engine {
-    instance: VkInstance,
+    renderer: Renderer,
 
     plugins: Vec<Box<dyn EnginePlugin>>
 }
@@ -18,7 +20,7 @@ pub struct Engine {
 impl Engine {
     pub fn new() -> Self {
         Self {
-            instance: null_mut(),
+            renderer: Renderer::new(),
 
             plugins: vec![]
         }

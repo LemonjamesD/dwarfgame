@@ -1,10 +1,11 @@
 use std::ffi::CString;
 use std::ptr::null;
 use vk_sys::{
-    vkCreateInstance, VkApplicationInfo, VkInstanceCreateInfo, VK_API_VERSION_1_0, VK_MAKE_VERSION,
-    VK_STRUCTURE_TYPE_APPLICATION_INFO, VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO, VK_SUCCESS, vkDestroyInstance,
+    createInstance, ApplicationInfo, InstanceCreateInfo,
+    STRUCTURE_TYPE_APPLICATION_INFO, STRUCTURE_TYPE_INSTANCE_CREATE_INFO, SUCCESS
 };
 
+use crate::helpers::make_api_version;
 use crate::{prelude::EngineError, Engine, plugins::{EnginePlugin, EngineCleanup}};
 
 /// Makes a vulkan instance and manages the state around it
@@ -23,18 +24,18 @@ impl VulkanInstancePlugin {
     fn create_instance(&self, engine: &mut Engine) -> Result<(), EngineError> {
         let application_name = CString::new("Hello, World!").unwrap();
         let engine_name = CString::new("Starstruck").unwrap();
-        let app_info = VkApplicationInfo {
-            sType: VK_STRUCTURE_TYPE_APPLICATION_INFO,
+        let app_info = ApplicationInfo {
+            sType: STRUCTURE_TYPE_APPLICATION_INFO,
             pNext: null(),
             pApplicationName: application_name.as_ptr(),
-            applicationVersion: VK_MAKE_VERSION(1, 0, 0),
+            applicationVersion: make_api_version(0, 1, 0, 0),
             pEngineName: engine_name.as_ptr(),
-            engineVersion: VK_MAKE_VERSION(1, 0, 0),
-            apiVersion: VK_API_VERSION_1_0,
+            engineVersion: make_api_version(0, 1, 0, 0),
+            apiVersion: make_api_version(0, 1, 0, 0),
         };
 
-        let create_info = VkInstanceCreateInfo {
-            sType: VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+        let create_info = InstanceCreateInfo {
+            sType: STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
             pNext: null(),
             flags: 0,
             pApplicationInfo: &app_info,
@@ -44,9 +45,9 @@ impl VulkanInstancePlugin {
             ppEnabledExtensionNames: null(),
         };
 
-        let result = unsafe { vkCreateInstance(&create_info, null(), &mut engine.instance) };
+        let result = unsafe { createInstance(&create_info, null(), &mut engine.renderer.instance) };
 
-        if result != VK_SUCCESS {
+        if result != SUCCESS {
             return Err(EngineError::VulkanError(result));
         }
 
@@ -54,10 +55,4 @@ impl VulkanInstancePlugin {
     }
 }
 
-impl EngineCleanup for VulkanInstancePlugin {
-    fn cleanup(&self, engine: &mut Engine) {
-        unsafe {
-            vkDestroyInstance(engine.instance, null());
-        }
-    }
-}
+impl EngineCleanup for VulkanInstancePlugin {}

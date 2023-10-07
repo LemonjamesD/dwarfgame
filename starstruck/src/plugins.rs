@@ -14,5 +14,5 @@ pub trait EngineObject<T: Default> {
 
 /// Called when the engine needs to cleanup an object/plugin
 pub trait EngineCleanup {
-    fn cleanup(&self, engine: &mut Engine);
+    fn cleanup(&self, engine: &mut Engine) {}
 }
