@@ -6,37 +6,52 @@ pub mod renderer;
 pub mod helpers;
 
 use std::ptr::null_mut;
-use plugins::EnginePlugin;
+use std::rc::Rc;
 
+use crate::plugins::EnginePlugin;
 use crate::error::EngineError;
 use crate::renderer::Renderer;
 
 pub struct Engine {
+    internal: Rc<EngineInternal>
+}
+
+pub(crate) struct EngineInternal {
     renderer: Renderer,
 
     plugins: Vec<Box<dyn EnginePlugin>>
 }
 
-impl Engine {
-    pub fn new() -> Self {
+impl EngineInternal {
+    pub(crate) fn new() -> Self {
         Self {
             renderer: Renderer::new(),
 
             plugins: vec![]
         }
     }
+}
+
+impl Engine {
+    pub fn new() -> Self {
+        Self {
+            internal: Rc::new(EngineInternal::new())
+        }
+    }
 
     // Does a bunch of start up tasks
-    pub fn start(self) -> Self {
-        for plugin in self.plugins {
+    pub fn start(mut self) -> Self {
+        let cloned = self.internal.clone();
+        for plugin in &cloned.plugins {
             plugin.plugin_make(&mut self);
         }
         self
     }
 
-    pub fn run(self) -> ! {
+    pub fn run(mut self) -> ! {
         loop {
-            for plugin in self.plugins {
+            let cloned = self.internal.clone();
+            for plugin in &cloned.plugins {
                 plugin.plugin_run(&mut self)
             }
         }
