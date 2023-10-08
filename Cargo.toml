@@ -4,5 +4,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ash = "0.37.3"
 starstruck = { version = "0.1.0", path = "starstruck" }
