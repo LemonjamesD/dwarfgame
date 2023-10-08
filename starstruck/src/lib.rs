@@ -43,7 +43,7 @@ impl Engine {
     pub fn start(mut self) -> Self {
         let cloned = self.internal.clone();
         for plugin in &cloned.plugins {
-            plugin.plugin_make(&mut self);
+            plugin.plugin_make(&mut self.internal.clone());
         }
         self
     }
@@ -52,7 +52,7 @@ impl Engine {
         loop {
             let cloned = self.internal.clone();
             for plugin in &cloned.plugins {
-                plugin.plugin_run(&mut self)
+                plugin.plugin_run(&mut self.internal.clone())
             }
         }
     }
